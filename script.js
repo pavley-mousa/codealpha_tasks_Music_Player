@@ -244,6 +244,7 @@ function normalizeRemoteSound(sound){
 
 function loadSource(){
   stopProgress();
+  stopSoundCloud();
   stopNative();
   state.isPlaying=false;
   state.engine="none";
