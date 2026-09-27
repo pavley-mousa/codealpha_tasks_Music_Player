@@ -4,48 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Pavley Music Player, a YouTube-powered streaming music player with playlists, favorites, shuffle, repeat, and responsive controls." />
-  <title>Pavley Music Player</title>
+  <meta name="description" content="Pavley Audio Player, a responsive audio-first player powered by SoundCloud with playlists, favorites, shuffle, repeat, seek, and volume." />
+  <title>Pavley Audio Player</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="https://w.soundcloud.com/player/api.js"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Pavley Music Player">
-        <span class="brand-mark"><i class="fa-solid fa-wave-square" aria-hidden="true"></i></span>
-        <span><strong>Pavley</strong><small>YouTube Music Player</small></span>
+      <a class="brand" href="#" aria-label="Pavley Audio Player">
+        <span class="brand-mark"><i class="fa-solid fa-headphones" aria-hidden="true"></i></span>
+        <span><strong>Pavley</strong><small>Audio Player</small></span>
       </a>
       <div class="topbar-actions">
         <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
-        <a class="icon-btn" href="https://github.com/pavley-mousa/codealpha_tasks_Music_Player" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+        <a class="icon-btn" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud"><i class="fa-brands fa-soundcloud" aria-hidden="true"></i></a>
       </div>
     </header>
 
     <main class="layout">
       <aside class="sidebar" aria-label="قوائم التشغيل">
         <div class="sidebar-head">
-          <div><span class="eyebrow">LIBRARY</span><h2>مصادرك</h2></div>
+          <div><span class="eyebrow">LIBRARY</span><h2>الفنانين</h2></div>
           <button class="icon-btn small" id="add-playlist-btn" type="button" aria-label="إضافة Playlist"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
         </div>
+
         <nav class="playlist-tabs" id="playlist-tabs"></nav>
 
         <div class="library-note">
-          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+          <i class="fa-brands fa-soundcloud" aria-hidden="true"></i>
           <div>
-            <strong>Streaming من YouTube</strong>
-            <p>الموقع يضمّن المشغّل الرسمي ويشغّل المحتوى من YouTube بدل تنزيل الأغاني.</p>
+            <strong>صوت فقط</strong>
+            <p>المشغّل يستخدم SoundCloud Streaming مع إخفاء صورة الـ artwork.</p>
           </div>
         </div>
 
         <div class="playlist-form" id="playlist-form" hidden>
-          <label for="playlist-url">رابط YouTube Playlist</label>
-          <input id="playlist-url" type="url" placeholder="https://www.youtube.com/playlist?list=..." />
+          <label for="playlist-url">رابط SoundCloud Playlist</label>
+          <input id="playlist-url" type="url" placeholder="https://soundcloud.com/user/sets/playlist" />
           <div class="form-actions">
             <button class="mini-btn primary" id="save-playlist" type="button">إضافة</button>
             <button class="mini-btn" id="cancel-playlist" type="button">إلغاء</button>
@@ -57,29 +58,26 @@
       <section class="content">
         <section class="hero-card">
           <div class="hero-copy">
-            <span class="eyebrow">STREAMING PLAYER</span>
-            <h1>كل اللي بتحبه في مكان واحد.</h1>
-            <p>شغّل Playlists مباشرة من YouTube، واستخدم أزرارنا للتحكم في التشغيل، الصوت، التكرار والـ Shuffle.</p>
+            <span class="eyebrow">AUDIO FIRST</span>
+            <h1>المزيكا من غير فيديو.</h1>
+            <p>واجهة صوتية نظيفة، مع تشغيل Streaming من SoundCloud، Playlists، Favorites، Shuffle، Repeat، Seek والتحكم في الصوت.</p>
           </div>
-          <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-play"></i></div></div>
+          <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-volume-high"></i></div></div>
         </section>
 
         <section class="music-grid">
           <div class="playlist-panel">
             <div class="panel-heading">
-              <div><span class="eyebrow">PLAYLIST</span><h2 id="playlist-title">محمد منير</h2></div>
-              <span class="track-count" id="track-count">YouTube</span>
+              <div><span class="eyebrow">SOUNDCLOUD SOURCE</span><h2 id="playlist-title">محمد منير</h2></div>
+              <span class="track-count" id="track-count">جاري التحميل</span>
             </div>
 
-            <div class="video-shell">
-              <div id="youtube-player" class="youtube-player" aria-label="YouTube player"></div>
-              <div class="video-overlay">
-                <span><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</span>
-                <a id="open-youtube" href="#" target="_blank" rel="noopener noreferrer">فتح على YouTube <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-              </div>
-            </div>
+            <div class="track-list" id="track-list"></div>
 
-            <div class="video-status" id="video-status" role="status" aria-live="polite">جاري تجهيز المشغّل...</div>
+            <div class="sc-player-wrap">
+              <div id="soundcloud-widget"></div>
+            </div>
+            <div class="video-status" id="source-status" role="status" aria-live="polite">جاري تجهيز مشغّل الصوت...</div>
           </div>
 
           <aside class="player-card">
@@ -92,15 +90,15 @@
             </div>
 
             <div class="now-meta">
-              <div><h2 id="now-title">YouTube Playlist</h2><p id="now-artist">محمد منير</p></div>
-              <span class="source-pill">YOUTUBE</span>
+              <div><h2 id="now-title">جاهز للتشغيل</h2><p id="now-artist">محمد منير</p></div>
+              <span class="source-pill">SOUNDCLOUD</span>
             </div>
 
             <div class="wave" id="waveform" aria-hidden="true"></div>
 
             <div class="progress-area">
               <div class="time-row"><span id="current-time">0:00</span><span id="total-duration">0:00</span></div>
-              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="التقدم في الفيديو" />
+              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="التقدم في الأغنية" />
             </div>
 
             <div class="main-controls">
@@ -115,6 +113,10 @@
               <div class="volume-box"><i class="fa-solid fa-volume-low" aria-hidden="true"></i><input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="مستوى الصوت" /><i class="fa-solid fa-volume-high" aria-hidden="true"></i></div>
               <button class="official-btn" id="mute-btn" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> كتم</button>
             </div>
+
+            <a class="source-link" id="source-link" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-soundcloud" aria-hidden="true"></i> افتح المصدر على SoundCloud
+            </a>
             <p class="player-status" id="player-status" role="status" aria-live="polite"></p>
           </aside>
         </section>
@@ -122,8 +124,8 @@
     </main>
 
     <footer class="footer">
-      <span>© 2026 Pavley Music Player</span>
-      <span>Powered by YouTube Embed</span>
+      <span>© 2026 Pavley Audio Player</span>
+      <span>Powered by SoundCloud</span>
     </footer>
   </div>
 </body>
