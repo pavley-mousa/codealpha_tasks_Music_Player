@@ -175,6 +175,10 @@ function resolveAudioSrc(track) {
   return { url: `music/${state.playlistId}/${track.file}`, source: "LOCAL FOLDER" };
 }
 
+function hasLocalFile(track) {
+  return Boolean(localFiles.get(track.file.toLowerCase()));
+}
+
 function loadTrack(index = state.index, autoplay = false) {
   audio.pause();
   state.isPlaying = false;
@@ -199,9 +203,17 @@ function loadTrack(index = state.index, autoplay = false) {
   if (autoplay) playTrack();
 }
 
+function requestAudioFile() {
+  E.status.textContent = "اختَر ملف الصوت للأغنية الحالية.";
+  E.fileInput.value = "";
+  E.fileInput.click();
+}
+
 async function playTrack() {
-  if (!audio.src) {
-    E.status.textContent = "اختَر أغنية أولًا.";
+  const track = getCurrentTrack();
+
+  if (!hasLocalFile(track) && !audio.src.startsWith("blob:")) {
+    requestAudioFile();
     return;
   }
 
@@ -212,11 +224,7 @@ async function playTrack() {
   } catch (error) {
     state.isPlaying = false;
     if (error?.name === "AbortError") return;
-    if (audio.error) {
-      E.status.textContent = "ملف الأغنية غير موجود. اضغط زر رفع الملفات واختَر ملف MP3 الموافق للأغنية.";
-    } else {
-      E.status.textContent = "تعذر تشغيل الأغنية. جرّب الضغط على Play مرة أخرى.";
-    }
+    E.status.textContent = "تعذر تشغيل الملف. تأكد أن الملف الصوتي صالح ثم جرّب مرة أخرى.";
   }
 
   updateControls();
@@ -300,20 +308,27 @@ E.tabs.addEventListener("click", event => {
 E.importBtn.addEventListener("click", () => E.fileInput.click());
 
 E.fileInput.addEventListener("change", event => {
-  [...event.target.files].forEach(file => {
-    if (file.type.startsWith("audio/")) localFiles.set(file.name.toLowerCase(), file);
-  });
-
+  const files = [...event.target.files].filter(file => file.type.startsWith("audio/"));
   const track = getCurrentTrack();
-  if (localFiles.has(track.file.toLowerCase())) {
-    loadTrack(state.index);
-    E.status.textContent = `تم تجهيز ${track.title} للتشغيل.`;
-  } else {
-    E.status.textContent = "اتضافت الملفات. اختَر الأغنية المطابقة من القائمة.";
+
+  if (!files.length) {
+    E.status.textContent = "اختَر ملف صوت صالح.";
+    event.target.value = "";
+    return;
   }
 
+  if (files.length === 1) {
+    localFiles.set(track.file.toLowerCase(), files[0]);
+  } else {
+    files.forEach(file => localFiles.set(file.name.toLowerCase(), file));
+  }
+
+  loadTrack(state.index, false);
+  E.status.textContent = `تم تجهيز ${track.title} للتشغيل.`;
   renderList();
   event.target.value = "";
+
+  playTrack();
 });
 
 E.list.addEventListener("click", event => {
@@ -325,7 +340,16 @@ E.list.addEventListener("click", event => {
   }
 
   const row = event.target.closest(".track-row");
-  if (row) loadTrack(Number(row.dataset.index), true);
+  if (!row) return;
+
+  const index = Number(row.dataset.index);
+  loadTrack(index, false);
+
+  if (hasLocalFile(getCurrentTrack())) {
+    playTrack();
+  } else {
+    requestAudioFile();
+  }
 });
 
 E.search.addEventListener("input", event => {
