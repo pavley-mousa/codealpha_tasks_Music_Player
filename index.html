@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Pavley Audio Player with editable playlists and multi-source audio." />
+  <meta id="meta-description" name="description" content="Pavley Audio Player" />
   <title>Pavley Audio Player</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,24 +18,21 @@
   <div class="app-shell">
     <header class="topbar">
       <a class="brand" href="#" aria-label="Pavley Audio Player">
-        <span class="brand-mark"><i class="fa-solid fa-headphones" aria-hidden="true"></i></span>
-        <span><strong>Pavley</strong><small>Audio Player</small></span>
+        <span class="brand-mark" id="brand-mark"><i class="fa-solid fa-headphones" aria-hidden="true"></i></span>
+        <span><strong id="app-name">Pavley</strong><small id="app-subtitle">Audio Player</small></span>
       </a>
       <div class="topbar-actions">
-        <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false">
-          <i class="fa-solid fa-moon" aria-hidden="true"></i>
-        </button>
-        <a class="icon-btn" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud">
-          <i class="fa-brands fa-soundcloud" aria-hidden="true"></i>
-        </a>
+        <button class="icon-btn" id="language-btn" type="button" aria-label="Switch language">EN</button>
+        <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+        <button class="icon-btn" id="settings-btn" type="button" aria-label="الإعدادات"><i class="fa-solid fa-gear" aria-hidden="true"></i></button>
       </div>
     </header>
 
     <main class="layout">
-      <aside class="sidebar" aria-label="مكتبة الموسيقى">
+      <aside class="sidebar" aria-label="Music Library">
         <div class="sidebar-group">
           <div class="sidebar-head">
-            <div><span class="eyebrow">MY LIBRARY</span><h2>قوائمك</h2></div>
+            <div><span class="eyebrow" data-i18n="libraryLabel">MY LIBRARY</span><h2 data-i18n="playlists">Playlists</h2></div>
             <button class="icon-btn small" id="add-playlist-btn" type="button" aria-label="إنشاء Playlist">
               <i class="fa-solid fa-plus" aria-hidden="true"></i>
             </button>
@@ -45,16 +42,17 @@
 
         <div class="sidebar-group source-group">
           <div class="sidebar-head compact">
-            <div><span class="eyebrow">SOURCES</span><h2>مصادر جاهزة</h2></div>
+            <div><span class="eyebrow" data-i18n="sourcesLabel">SOURCES</span><h2 data-i18n="sources">Sources</h2></div>
+            <button class="text-add-btn" id="add-source-btn" type="button"><i class="fa-solid fa-plus"></i><span data-i18n="add">Add</span></button>
           </div>
           <nav class="playlist-tabs" id="source-tabs"></nav>
         </div>
 
         <div class="library-note">
-          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
           <div>
-            <strong>الغلاف هنا فقط</strong>
-            <p>Artwork يظهر في كارت الأغنية الخارجي فقط. القائمة نفسها نصية، وSoundCloud بدون Artwork.</p>
+            <strong data-i18n="editableTitle">Everything is editable</strong>
+            <p data-i18n="editableText">Change the app identity, language, theme, playlists, songs, artwork and sources from the user settings.</p>
           </div>
         </div>
       </aside>
@@ -62,9 +60,9 @@
       <section class="content">
         <section class="hero-card">
           <div class="hero-copy">
-            <span class="eyebrow">AUDIO FIRST</span>
-            <h1>اعمل مكتبتك على مزاجك.</h1>
-            <p>أنشئ Playlist جديدة، غيّر اسمها والغلاف، أضف واحذف الأغاني، وشغّل روابط صوت من مصادر مختلفة بدون فيديو.</p>
+            <span class="eyebrow" id="hero-eyebrow">AUDIO FIRST</span>
+            <h1 id="hero-title">اعمل مكتبتك على مزاجك.</h1>
+            <p id="hero-description">أنشئ Playlist جديدة، غيّر اسمها والغلاف، أضف واحذف الأغاني، وشغّل روابط صوت من مصادر مختلفة بدون فيديو.</p>
           </div>
           <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-sliders"></i></div></div>
         </section>
@@ -77,16 +75,10 @@
                 <h2 id="playlist-title">مكتبتي</h2>
               </div>
               <div class="heading-actions">
-                <span class="track-count" id="track-count">0 أغنية</span>
-                <button class="mini-icon-btn" id="edit-playlist-btn" type="button" title="تعديل Playlist" aria-label="تعديل Playlist">
-                  <i class="fa-solid fa-pen" aria-hidden="true"></i>
-                </button>
-                <button class="mini-icon-btn" id="add-track-btn" type="button" title="إضافة أغنية" aria-label="إضافة أغنية">
-                  <i class="fa-solid fa-music" aria-hidden="true"></i>
-                </button>
-                <button class="mini-icon-btn danger" id="delete-playlist-btn" type="button" title="حذف Playlist" aria-label="حذف Playlist">
-                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                </button>
+                <span class="track-count" id="track-count">0</span>
+                <button class="mini-icon-btn" id="edit-playlist-btn" type="button" title="Edit Playlist" aria-label="Edit Playlist"><i class="fa-solid fa-pen"></i></button>
+                <button class="mini-icon-btn" id="add-track-btn" type="button" title="Add Track" aria-label="Add Track"><i class="fa-solid fa-music"></i></button>
+                <button class="mini-icon-btn danger" id="delete-playlist-btn" type="button" title="Delete Playlist" aria-label="Delete Playlist"><i class="fa-solid fa-trash"></i></button>
               </div>
             </div>
 
@@ -96,23 +88,20 @@
               <iframe id="soundcloud-widget" title="SoundCloud audio player" scrolling="no" allow="autoplay" src="about:blank"></iframe>
             </div>
             <audio id="native-audio" preload="metadata"></audio>
-            <div class="source-status" id="source-status" role="status" aria-live="polite">جاري تجهيز المشغّل...</div>
+            <div class="source-status" id="source-status" role="status" aria-live="polite"></div>
           </div>
 
           <aside class="player-card">
-            <div class="now-art" id="now-art" aria-label="غلاف الأغنية">
+            <div class="now-art" id="now-art" aria-label="Artwork">
               <span id="art-initials">♪</span>
               <div class="art-overlay"></div>
-              <button class="favorite-main" id="favorite-main" type="button" aria-label="إضافة للمفضلة" aria-pressed="false">
+              <button class="favorite-main" id="favorite-main" type="button" aria-label="Add to favorites" aria-pressed="false">
                 <i class="fa-regular fa-heart" aria-hidden="true"></i>
               </button>
             </div>
 
             <div class="now-meta">
-              <div>
-                <h2 id="now-title">جاهز للتشغيل</h2>
-                <p id="now-artist">اختار أغنية</p>
-              </div>
+              <div><h2 id="now-title">جاهز للتشغيل</h2><p id="now-artist">اختار أغنية</p></div>
               <span class="source-pill" id="source-pill">PAVLEY</span>
             </div>
 
@@ -120,31 +109,27 @@
 
             <div class="progress-area">
               <div class="time-row"><span id="current-time">0:00</span><span id="total-duration">0:00</span></div>
-              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="التقدم في الأغنية" />
+              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="Playback progress" />
             </div>
 
             <div class="main-controls">
-              <button class="control-btn" id="shuffle-btn" type="button" aria-label="Shuffle" aria-pressed="false"><i class="fa-solid fa-shuffle" aria-hidden="true"></i></button>
-              <button class="control-btn" id="prev-btn" type="button" aria-label="السابق"><i class="fa-solid fa-backward-step" aria-hidden="true"></i></button>
-              <button class="play-btn" id="play-btn" type="button" aria-label="تشغيل"><i class="fa-solid fa-play" id="play-icon" aria-hidden="true"></i></button>
-              <button class="control-btn" id="next-btn" type="button" aria-label="التالي"><i class="fa-solid fa-forward-step" aria-hidden="true"></i></button>
-              <button class="control-btn" id="repeat-btn" type="button" aria-label="التكرار" aria-pressed="false"><i class="fa-solid fa-repeat" aria-hidden="true"></i></button>
+              <button class="control-btn" id="shuffle-btn" type="button" aria-label="Shuffle" aria-pressed="false"><i class="fa-solid fa-shuffle"></i></button>
+              <button class="control-btn" id="prev-btn" type="button" aria-label="Previous"><i class="fa-solid fa-backward-step"></i></button>
+              <button class="play-btn" id="play-btn" type="button" aria-label="Play"><i class="fa-solid fa-play" id="play-icon"></i></button>
+              <button class="control-btn" id="next-btn" type="button" aria-label="Next"><i class="fa-solid fa-forward-step"></i></button>
+              <button class="control-btn" id="repeat-btn" type="button" aria-label="Repeat" aria-pressed="false"><i class="fa-solid fa-repeat"></i></button>
             </div>
 
             <div class="player-bottom">
               <div class="volume-box">
-                <i class="fa-solid fa-volume-low" aria-hidden="true"></i>
-                <input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="مستوى الصوت" />
-                <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+                <i class="fa-solid fa-volume-low"></i>
+                <input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="Volume" />
+                <i class="fa-solid fa-volume-high"></i>
               </div>
-              <button class="official-btn" id="mute-btn" type="button" aria-pressed="false">
-                <i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> كتم
-              </button>
+              <button class="official-btn" id="mute-btn" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark"></i> <span id="mute-label">كتم</span></button>
             </div>
 
-            <a class="source-link" id="source-link" href="#" target="_blank" rel="noopener noreferrer">
-              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> افتح المصدر
-            </a>
+            <a class="source-link" id="source-link" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> <span id="source-link-label">Open source</span></a>
             <p class="player-status" id="player-status" role="status" aria-live="polite"></p>
           </aside>
         </section>
@@ -152,59 +137,83 @@
     </main>
 
     <footer class="footer">
-      <span>© 2026 Pavley Audio Player</span>
-      <span>SoundCloud + Browser Audio</span>
+      <span id="footer-text">© 2026 Pavley Audio Player</span>
+      <span id="footer-right">SoundCloud + Browser Audio</span>
     </footer>
   </div>
 
   <dialog class="modal" id="playlist-modal">
     <div class="modal-card">
-      <div class="modal-head">
-        <div><span class="eyebrow">PLAYLIST</span><h3 id="playlist-modal-title">إنشاء Playlist</h3></div>
-        <button class="icon-btn small" type="button" data-close-modal="playlist-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <label>اسم Playlist<input id="playlist-name" type="text" maxlength="60" placeholder="مثلاً: مزاج الليل" required /></label>
-      <label>رابط الغلاف <span class="optional">اختياري</span><input id="playlist-cover" type="url" placeholder="https://example.com/cover.jpg" /></label>
+      <div class="modal-head"><div><span class="eyebrow">PLAYLIST</span><h3 id="playlist-modal-title">Create Playlist</h3></div><button class="icon-btn small" type="button" data-close-modal="playlist-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+      <label><span data-i18n="playlistName">Playlist name</span><input id="playlist-name" type="text" maxlength="60" required /></label>
+      <label><span data-i18n="coverUrl">Cover URL</span><span class="optional" data-i18n="optional">(optional)</span><input id="playlist-cover" type="url" placeholder="https://example.com/cover.jpg" /></label>
       <p class="modal-hint" id="playlist-modal-status"></p>
-      <div class="modal-actions">
-        <button class="mini-btn primary" id="save-playlist" type="button">حفظ</button>
-        <button class="mini-btn" type="button" data-close-modal="playlist-modal">إلغاء</button>
-      </div>
+      <div class="modal-actions"><button class="mini-btn primary" id="save-playlist" type="button">Save</button><button class="mini-btn" type="button" data-close-modal="playlist-modal">Cancel</button></div>
     </div>
   </dialog>
 
   <dialog class="modal" id="track-modal">
     <div class="modal-card">
-      <div class="modal-head">
-        <div><span class="eyebrow">TRACK</span><h3 id="track-modal-title">إضافة أغنية</h3></div>
-        <button class="icon-btn small" type="button" data-close-modal="track-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <label>اسم الأغنية<input id="track-title-input" type="text" maxlength="120" placeholder="اسم الأغنية" required /></label>
-      <label>المطرب <span class="optional">اختياري</span><input id="track-artist-input" type="text" maxlength="100" placeholder="اسم المطرب" /></label>
-      <label>رابط الصوت<input id="track-url-input" type="url" placeholder="SoundCloud أو رابط ملف صوت مباشر" required /></label>
-      <label>رابط الغلاف <span class="optional">اختياري</span><input id="track-art-input" type="url" placeholder="https://example.com/cover.jpg" /></label>
-      <p class="modal-hint" id="track-modal-status">الرابط لازم يكون رابط صوت مباشر أو رابط SoundCloud Track.</p>
-      <div class="modal-actions">
-        <button class="mini-btn primary" id="save-track" type="button">حفظ الأغنية</button>
-        <button class="mini-btn" type="button" data-close-modal="track-modal">إلغاء</button>
-      </div>
+      <div class="modal-head"><div><span class="eyebrow">TRACK</span><h3 id="track-modal-title">Add Track</h3></div><button class="icon-btn small" type="button" data-close-modal="track-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+      <label><span data-i18n="trackName">Track name</span><input id="track-title-input" type="text" maxlength="120" required /></label>
+      <label><span data-i18n="artist">Artist</span><span class="optional" data-i18n="optional">(optional)</span><input id="track-artist-input" type="text" maxlength="100" /></label>
+      <label><span data-i18n="audioUrl">Audio URL</span><input id="track-url-input" type="url" required /></label>
+      <label><span data-i18n="coverUrl">Cover URL</span><span class="optional" data-i18n="optional">(optional)</span><input id="track-art-input" type="url" placeholder="https://example.com/cover.jpg" /></label>
+      <p class="modal-hint" id="track-modal-status"></p>
+      <div class="modal-actions"><button class="mini-btn primary" id="save-track" type="button">Save</button><button class="mini-btn" type="button" data-close-modal="track-modal">Cancel</button></div>
     </div>
   </dialog>
 
   <dialog class="modal" id="add-to-playlist-modal">
     <div class="modal-card">
-      <div class="modal-head">
-        <div><span class="eyebrow">ADD TO PLAYLIST</span><h3>إضافة إلى Playlist</h3></div>
-        <button class="icon-btn small" type="button" data-close-modal="add-to-playlist-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <label>اختار Playlist
-        <select id="destination-playlist"></select>
-      </label>
+      <div class="modal-head"><div><span class="eyebrow">PLAYLIST</span><h3 data-i18n="addToPlaylist">Add to Playlist</h3></div><button class="icon-btn small" type="button" data-close-modal="add-to-playlist-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+      <label><span data-i18n="choosePlaylist">Choose Playlist</span><select id="destination-playlist"></select></label>
       <p class="modal-hint" id="copy-status"></p>
-      <div class="modal-actions">
-        <button class="mini-btn primary" id="save-copy-track" type="button">إضافة</button>
-        <button class="mini-btn" type="button" data-close-modal="add-to-playlist-modal">إلغاء</button>
-      </div>
+      <div class="modal-actions"><button class="mini-btn primary" id="save-copy-track" type="button">Add</button><button class="mini-btn" type="button" data-close-modal="add-to-playlist-modal">Cancel</button></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal wide-modal" id="settings-modal">
+    <div class="modal-card">
+      <div class="modal-head"><div><span class="eyebrow">USER SETTINGS</span><h3 data-i18n="settings">Settings</h3></div><button class="icon-btn small" type="button" data-close-modal="settings-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+
+      <section class="settings-section">
+        <div class="settings-section-head"><div><strong data-i18n="appearance">Appearance & Identity</strong><small data-i18n="appearanceHint">Everything here is saved for this user and browser.</small></div></div>
+        <div class="settings-grid">
+          <label><span data-i18n="appName">App name</span><input id="setting-app-name" type="text" maxlength="40" /></label>
+          <label><span data-i18n="appSubtitle">App subtitle</span><input id="setting-app-subtitle" type="text" maxlength="60" /></label>
+          <label><span data-i18n="heroTitle">Hero title</span><input id="setting-hero-title" type="text" maxlength="100" /></label>
+          <label><span data-i18n="accent">Accent color</span><input id="setting-accent" type="color" /></label>
+          <label class="full"><span data-i18n="heroDescription">Hero description</span><textarea id="setting-hero-description" maxlength="240"></textarea></label>
+          <label><span data-i18n="logoUrl">Logo image URL</span><input id="setting-logo" type="url" placeholder="https://example.com/logo.png" /></label>
+          <label><span data-i18n="footerText">Footer text</span><input id="setting-footer" type="text" maxlength="100" /></label>
+          <label><span data-i18n="language">Language</span><select id="setting-language"><option value="ar">العربية</option><option value="en">English</option></select></label>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <div class="settings-section-head">
+          <div><strong data-i18n="manageSources">Manage Sources</strong><small data-i18n="manageSourcesHint">Edit or delete every source. Add your own source too.</small></div>
+          <button class="mini-btn primary compact-btn" id="settings-add-source" type="button"><i class="fa-solid fa-plus"></i> <span data-i18n="addSource">Add source</span></button>
+        </div>
+        <div id="settings-sources-list" class="managed-list"></div>
+      </section>
+
+      <div class="modal-actions"><button class="mini-btn primary" id="save-settings" type="button" data-i18n="saveChanges">Save changes</button><button class="mini-btn" type="button" data-close-modal="settings-modal" data-i18n="cancel">Cancel</button></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="source-modal">
+    <div class="modal-card">
+      <div class="modal-head"><div><span class="eyebrow">SOURCE</span><h3 id="source-modal-title">Add Source</h3></div><button class="icon-btn small" type="button" data-close-modal="source-modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+      <label><span data-i18n="sourceName">Source name</span><input id="source-name" type="text" maxlength="60" required /></label>
+      <label><span data-i18n="sourceArtist">Artist / owner</span><input id="source-artist" type="text" maxlength="80" /></label>
+      <label><span data-i18n="sourceType">Source type</span><select id="source-type"><option value="soundcloud">SoundCloud</option><option value="audio">Direct audio file</option></select></label>
+      <label><span data-i18n="sourceUrl">Source URL</span><input id="source-url" type="url" placeholder="https://..." required /></label>
+      <label><span data-i18n="sourceCover">Cover URL</span><span class="optional" data-i18n="optional">(optional)</span><input id="source-cover" type="url" placeholder="https://example.com/cover.jpg" /></label>
+      <label><span data-i18n="sourceColor">Color</span><input id="source-color" type="color" value="#0ea5e9" /></label>
+      <p class="modal-hint" id="source-modal-status"></p>
+      <div class="modal-actions"><button class="mini-btn primary" id="save-source" type="button">Save</button><button class="mini-btn" type="button" data-close-modal="source-modal">Cancel</button></div>
     </div>
   </dialog>
 </body>
