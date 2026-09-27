@@ -28,3 +28,5 @@ html[data-theme="light"] .hero-card{background:linear-gradient(125deg,#fff,#edf6
 
 
 .import-btn{margin-top:9px;display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:8px;background:rgba(56,189,248,.08);color:var(--primary);font-size:.66rem;font-weight:700;cursor:pointer;transition:.2s}.import-btn:hover{background:rgba(56,189,248,.14);transform:translateY(-1px)}
+
+.sidebar-tools{display:flex;gap:7px}.import-btn{display:none}
