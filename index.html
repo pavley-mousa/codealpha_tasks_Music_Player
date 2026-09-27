@@ -1,63 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music Player | CodeAlpha</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="theme-color" content="#07111f" />
+  <meta name="description" content="Pavley Music Player, a polished responsive music player with playlists, favorites, shuffle, repeat, search, keyboard controls, and local audio support." />
+  <title>Pavley Music Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
-
-  <div class="player-container">
-    
-    <!-- غلاف التراك والمعلومات -->
-    <div class="track-art-wrapper">
-      <img src="" alt="Album Art" id="track-art" class="track-art" />
-    </div>
-
-    <div class="track-details">
-      <h2 id="track-title">Song Title</h2>
-      <p id="track-artist">Artist Name</p>
-    </div>
-
-    <!-- شريط التقدم والوقت -->
-    <div class="progress-section">
-      <div class="time-display">
-        <span id="current-time">0:00</span>
-        <span id="total-duration">0:00</span>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Pavley Music Player">
+        <span class="brand-mark"><i class="fa-solid fa-music" aria-hidden="true"></i></span>
+        <span><strong>Pavley</strong><small>Music Player</small></span>
+      </a>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+        <a class="icon-btn" href="https://github.com/pavley-mousa/codealpha_tasks_Music_Player" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
       </div>
-      <input type="range" id="progress-bar" min="0" max="100" value="0" class="slider" />
-    </div>
+    </header>
 
-    <!-- أزرار التحكم في التشغيل -->
-    <div class="controls-section">
-      <button class="ctrl-btn" id="prev-btn" title="Previous Track">
-        <i class="fa-solid fa-backward-step"></i>
-      </button>
-      <button class="ctrl-btn play-pause-btn" id="play-pause-btn" title="Play">
-        <i class="fa-solid fa-play" id="play-icon"></i>
-      </button>
-      <button class="ctrl-btn" id="next-btn" title="Next Track">
-        <i class="fa-solid fa-forward-step"></i>
-      </button>
-    </div>
+    <main class="layout">
+      <aside class="sidebar" aria-label="قوائم التشغيل">
+        <div class="sidebar-head">
+          <div><span class="eyebrow">YOUR LIBRARY</span><h2>قوائمك</h2></div>
+          <button class="icon-btn small" id="clear-search-btn" type="button" aria-label="مسح البحث"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>
+        </div>
+        <nav class="playlist-tabs" id="playlist-tabs"></nav>
+        <div class="library-note">
+          <i class="fa-solid fa-headphones-simple" aria-hidden="true"></i>
+          <div><strong>تشغيل محلي كامل</strong><p>ضع ملفات الصوت التي تملك حق استخدامها داخل مجلد music.</p></div>
+        </div>
+      </aside>
 
-    <!-- التحكم في مستوى الصوت -->
-    <div class="volume-section">
-      <i class="fa-solid fa-volume-low" id="vol-icon"></i>
-      <input type="range" id="volume-bar" min="0" max="100" value="80" class="slider" />
-      <i class="fa-solid fa-volume-high"></i>
-    </div>
+      <section class="content">
+        <section class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">NOW PLAYING</span>
+            <h1>اسمعها بطريقتك.</h1>
+            <p>Player مرتب للموبايل والكمبيوتر، مع Playlists، بحث، Favorites، Shuffle وRepeat وحفظ تلقائي للحالة.</p>
+          </div>
+          <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-play"></i></div></div>
+        </section>
 
-    <!-- قائمة التشغيل Playlist (Bonus) -->
-    <div class="playlist-section">
-      <h3>Playlist</h3>
-      <ul class="playlist" id="playlist-list"></ul>
-    </div>
+        <div class="toolbar">
+          <label class="search-box"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="search-input" type="search" placeholder="ابحث باسم الأغنية أو الفنان..." autocomplete="off" /></label>
+          <button class="filter-btn" id="favorites-filter" type="button" aria-pressed="false"><i class="fa-regular fa-heart" aria-hidden="true"></i> المفضلة</button>
+        </div>
 
+        <section class="music-grid">
+          <div class="playlist-panel">
+            <div class="panel-heading"><div><span class="eyebrow">PLAYLIST</span><h2 id="playlist-title">محمد منير</h2></div><span class="track-count" id="track-count">0 أغنية</span></div>
+            <div class="track-list" id="track-list"></div>
+          </div>
+
+          <aside class="player-card">
+            <div class="now-art" id="now-art">
+              <span id="art-initials">م</span><div class="art-overlay"></div>
+              <button class="favorite-main" id="favorite-main" type="button" aria-label="إضافة للمفضلة" aria-pressed="false"><i class="fa-regular fa-heart" aria-hidden="true"></i></button>
+            </div>
+
+            <div class="now-meta">
+              <div><h2 id="now-title">اختر أغنية</h2><p id="now-artist">Pavley Music Player</p></div>
+              <span class="source-pill" id="source-pill">LOCAL</span>
+            </div>
+
+            <div class="wave" aria-hidden="true" id="waveform"></div>
+            <div class="progress-area">
+              <div class="time-row"><span id="current-time">0:00</span><span id="total-duration">0:00</span></div>
+              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="التقدم في الأغنية" />
+            </div>
+
+            <div class="main-controls">
+              <button class="control-btn" id="shuffle-btn" type="button" aria-label="Shuffle" aria-pressed="false"><i class="fa-solid fa-shuffle" aria-hidden="true"></i></button>
+              <button class="control-btn" id="prev-btn" type="button" aria-label="السابق"><i class="fa-solid fa-backward-step" aria-hidden="true"></i></button>
+              <button class="play-btn" id="play-btn" type="button" aria-label="تشغيل"><i class="fa-solid fa-play" id="play-icon" aria-hidden="true"></i></button>
+              <button class="control-btn" id="next-btn" type="button" aria-label="التالي"><i class="fa-solid fa-forward-step" aria-hidden="true"></i></button>
+              <button class="control-btn" id="repeat-btn" type="button" aria-label="التكرار" aria-pressed="false"><i class="fa-solid fa-repeat" aria-hidden="true"></i></button>
+            </div>
+
+            <div class="player-bottom">
+              <div class="volume-box"><i class="fa-solid fa-volume-low" aria-hidden="true"></i><input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="مستوى الصوت" /><i class="fa-solid fa-volume-high" aria-hidden="true"></i></div>
+              <a id="official-btn" class="official-btn" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube" aria-hidden="true"></i> المصدر الرسمي</a>
+            </div>
+            <p class="player-status" id="player-status" role="status" aria-live="polite"></p>
+          </aside>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer"><span>© 2026 Pavley Music Player</span><span>CodeAlpha Music Player</span></footer>
   </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
