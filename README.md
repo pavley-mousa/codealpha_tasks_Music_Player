@@ -1,47 +1,45 @@
-# Pavley Music Player
+# Pavley Audio Player
 
-A responsive YouTube-powered music player built with HTML, CSS, and vanilla JavaScript.
+Audio-first music player built with HTML, CSS, vanilla JavaScript, and the official SoundCloud Widget API.
 
-## Streaming
-
-The app uses the official YouTube IFrame Player API for playback. It does not download or re-host commercial recordings.
-
-YouTube supports embedding a playlist with a playlist ID, and the IFrame API supports play, pause, next, previous, seeking, volume, shuffle, and playlist looping. citeturn666623search0turn322662search0
+The player uses SoundCloud streaming instead of downloading or extracting audio. SoundCloud's Widget API supports playback controls, seeking, volume, next, previous, playlist loading, and playback events. The widget also supports hiding artwork while retaining the embedded player and SoundCloud attribution. citeturn108738search0turn108738search2
 
 ## Built-in sources
 
-- Mohamed Mounir official channel uploads
-- Georges Wassouf official channel uploads
-- Any public YouTube playlist you add from the + button
+Mohamed Mounir SoundCloud:
+https://soundcloud.com/mohamed-mounir-official
 
-## Add your own YouTube playlist
+Georges Wassouf SoundCloud:
+https://soundcloud.com/georges_wassouf
 
-1. Open the app.
-2. Press + beside "مصادرك".
-3. Paste a YouTube playlist URL.
-4. Press "إضافة".
-5. The playlist is saved in your browser and loads inside the player.
+These artist pages currently contain tracks on SoundCloud. citeturn710102search1turn915845search0
 
-Example URL format:
+## Add a playlist
 
-https://www.youtube.com/playlist?list=PLAYLIST_ID
+Press + beside "الفنانين", paste any SoundCloud playlist URL, then press "إضافة".
 
 ## Features
 
-- YouTube streaming
-- Multiple playlists
-- Custom YouTube playlist import
-- Play and pause
-- Previous and next
+- Audio-only interface
+- SoundCloud streaming
+- Artist sources
+- Custom SoundCloud playlist import
+- Play/Pause
+- Previous/Next
 - Seek
 - Volume
 - Mute
 - Shuffle
 - Repeat
-- Favorites
+- Favorites stored in localStorage
 - Dark and light themes
 - Keyboard shortcuts
-- Responsive desktop and mobile UI
+- Responsive design
+- SoundCloud attribution
+
+## Run
+
+Open index.html with VS Code Live Server.
 
 ## Keyboard shortcuts
 
@@ -49,7 +47,3 @@ Space = Play/Pause
 Arrow Right = Next
 Arrow Left = Previous
 M = Mute/Unmute
-
-## Run
-
-Open index.html with VS Code Live Server.
