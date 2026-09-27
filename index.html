@@ -4,21 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Pavley Music Player, a polished responsive music player with playlists, favorites, shuffle, repeat, search, keyboard controls, and local audio support." />
+  <meta name="description" content="Pavley Music Player, a YouTube-powered streaming music player with playlists, favorites, shuffle, repeat, and responsive controls." />
   <title>Pavley Music Player</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <a class="brand" href="#" aria-label="Pavley Music Player">
-        <span class="brand-mark"><i class="fa-solid fa-music" aria-hidden="true"></i></span>
-        <span><strong>Pavley</strong><small>Music Player</small></span>
+        <span class="brand-mark"><i class="fa-solid fa-wave-square" aria-hidden="true"></i></span>
+        <span><strong>Pavley</strong><small>YouTube Music Player</small></span>
       </a>
       <div class="topbar-actions">
         <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
@@ -29,50 +30,77 @@
     <main class="layout">
       <aside class="sidebar" aria-label="قوائم التشغيل">
         <div class="sidebar-head">
-          <div><span class="eyebrow">YOUR LIBRARY</span><h2>قوائمك</h2></div>
-          <div class="sidebar-tools"><button class="icon-btn small" id="import-files" type="button" aria-label="إضافة ملفات"><i class="fa-solid fa-upload" aria-hidden="true"></i></button><button class="icon-btn small" id="clear-search-btn" type="button" aria-label="مسح البحث"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button></div>
+          <div><span class="eyebrow">LIBRARY</span><h2>مصادرك</h2></div>
+          <button class="icon-btn small" id="add-playlist-btn" type="button" aria-label="إضافة Playlist"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
         </div>
         <nav class="playlist-tabs" id="playlist-tabs"></nav>
-        <div class="library-note"><i class="fa-solid fa-headphones-simple" aria-hidden="true"></i><div><strong>تشغيل محلي كامل</strong><p>أضف ملفات الصوت التي تملك حق استخدامها من جهازك.</p></div></div>
-        <input id="file-input" type="file" accept="audio/*" multiple hidden />
+
+        <div class="library-note">
+          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+          <div>
+            <strong>Streaming من YouTube</strong>
+            <p>الموقع يضمّن المشغّل الرسمي ويشغّل المحتوى من YouTube بدل تنزيل الأغاني.</p>
+          </div>
+        </div>
+
+        <div class="playlist-form" id="playlist-form" hidden>
+          <label for="playlist-url">رابط YouTube Playlist</label>
+          <input id="playlist-url" type="url" placeholder="https://www.youtube.com/playlist?list=..." />
+          <div class="form-actions">
+            <button class="mini-btn primary" id="save-playlist" type="button">إضافة</button>
+            <button class="mini-btn" id="cancel-playlist" type="button">إلغاء</button>
+          </div>
+          <p class="form-hint" id="playlist-form-status" role="status"></p>
+        </div>
       </aside>
 
       <section class="content">
         <section class="hero-card">
           <div class="hero-copy">
-            <span class="eyebrow">NOW PLAYING</span>
-            <h1>اسمعها بطريقتك.</h1>
-            <p>Player مرتب للموبايل والكمبيوتر، مع Playlists، بحث، Favorites، Shuffle وRepeat وحفظ تلقائي للحالة.</p>
+            <span class="eyebrow">STREAMING PLAYER</span>
+            <h1>كل اللي بتحبه في مكان واحد.</h1>
+            <p>شغّل Playlists مباشرة من YouTube، واستخدم أزرارنا للتحكم في التشغيل، الصوت، التكرار والـ Shuffle.</p>
           </div>
           <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-play"></i></div></div>
         </section>
 
-        <div class="toolbar">
-          <label class="search-box"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="search-input" type="search" placeholder="ابحث باسم الأغنية أو الفنان..." autocomplete="off" /></label>
-          <button class="filter-btn" id="favorites-filter" type="button" aria-pressed="false"><i class="fa-regular fa-heart" aria-hidden="true"></i> المفضلة</button>
-        </div>
-
         <section class="music-grid">
           <div class="playlist-panel">
-            <div class="panel-heading"><div><span class="eyebrow">PLAYLIST</span><h2 id="playlist-title">محمد منير</h2></div><span class="track-count" id="track-count">0 أغنية</span></div>
-            <div class="track-list" id="track-list"></div>
+            <div class="panel-heading">
+              <div><span class="eyebrow">PLAYLIST</span><h2 id="playlist-title">محمد منير</h2></div>
+              <span class="track-count" id="track-count">YouTube</span>
+            </div>
+
+            <div class="video-shell">
+              <div id="youtube-player" class="youtube-player" aria-label="YouTube player"></div>
+              <div class="video-overlay">
+                <span><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</span>
+                <a id="open-youtube" href="#" target="_blank" rel="noopener noreferrer">فتح على YouTube <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              </div>
+            </div>
+
+            <div class="video-status" id="video-status" role="status" aria-live="polite">جاري تجهيز المشغّل...</div>
           </div>
 
           <aside class="player-card">
             <div class="now-art" id="now-art">
-              <span id="art-initials">م</span><div class="art-overlay"></div>
-              <button class="favorite-main" id="favorite-main" type="button" aria-label="إضافة للمفضلة" aria-pressed="false"><i class="fa-regular fa-heart" aria-hidden="true"></i></button>
+              <span id="art-initials">م</span>
+              <div class="art-overlay"></div>
+              <button class="favorite-main" id="favorite-main" type="button" aria-label="إضافة للمفضلة" aria-pressed="false">
+                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+              </button>
             </div>
 
             <div class="now-meta">
-              <div><h2 id="now-title">اختر أغنية</h2><p id="now-artist">Pavley Music Player</p></div>
-              <span class="source-pill" id="source-pill">LOCAL</span>
+              <div><h2 id="now-title">YouTube Playlist</h2><p id="now-artist">محمد منير</p></div>
+              <span class="source-pill">YOUTUBE</span>
             </div>
 
-            <div class="wave" aria-hidden="true" id="waveform"></div>
+            <div class="wave" id="waveform" aria-hidden="true"></div>
+
             <div class="progress-area">
               <div class="time-row"><span id="current-time">0:00</span><span id="total-duration">0:00</span></div>
-              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="التقدم في الأغنية" />
+              <input id="progress" class="range" type="range" min="0" max="100" value="0" aria-label="التقدم في الفيديو" />
             </div>
 
             <div class="main-controls">
@@ -85,7 +113,7 @@
 
             <div class="player-bottom">
               <div class="volume-box"><i class="fa-solid fa-volume-low" aria-hidden="true"></i><input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="مستوى الصوت" /><i class="fa-solid fa-volume-high" aria-hidden="true"></i></div>
-              <a id="official-btn" class="official-btn" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube" aria-hidden="true"></i> المصدر الرسمي</a>
+              <button class="official-btn" id="mute-btn" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> كتم</button>
             </div>
             <p class="player-status" id="player-status" role="status" aria-live="polite"></p>
           </aside>
@@ -93,7 +121,10 @@
       </section>
     </main>
 
-    <footer class="footer"><span>© 2026 Pavley Music Player</span><span>CodeAlpha Music Player</span></footer>
+    <footer class="footer">
+      <span>© 2026 Pavley Music Player</span>
+      <span>Powered by YouTube Embed</span>
+    </footer>
   </div>
 </body>
 </html>
