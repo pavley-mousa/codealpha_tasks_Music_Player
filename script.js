@@ -37,7 +37,7 @@ audio.preload = "metadata";
 audio.volume = Number(localStorage.getItem("pavley-volume") || 0.8);
 
 const localFiles = new Map();
-const objectUrls = new Map();
+let currentObjectUrl = null;
 
 const E = {
   tabs: document.getElementById("playlist-tabs"),
@@ -165,13 +165,17 @@ function formatTime(seconds) {
 
 function resolveAudioSrc(track) {
   const local = localFiles.get(track.file.toLowerCase());
-  if (local) {
-    const key = track.file.toLowerCase();
-    if (objectUrls.has(key)) URL.revokeObjectURL(objectUrls.get(key));
-    const url = URL.createObjectURL(local);
-    objectUrls.set(key, url);
-    return { url, source: "LOCAL FILE" };
+
+  if (currentObjectUrl) {
+    URL.revokeObjectURL(currentObjectUrl);
+    currentObjectUrl = null;
   }
+
+  if (local) {
+    currentObjectUrl = URL.createObjectURL(local);
+    return { url: currentObjectUrl, source: "LOCAL FILE" };
+  }
+
   return { url: `music/${state.playlistId}/${track.file}`, source: "LOCAL FOLDER" };
 }
 
@@ -181,6 +185,7 @@ function hasLocalFile(track) {
 
 function loadTrack(index = state.index, autoplay = false) {
   audio.pause();
+  audio.currentTime = 0;
   state.isPlaying = false;
 
   state.index = Math.max(0, Math.min(index, getPlaylist().tracks.length - 1));
@@ -191,6 +196,8 @@ function loadTrack(index = state.index, autoplay = false) {
 
   const source = resolveAudioSrc(track);
   audio.src = source.url;
+  audio.load();
+
   E.source.textContent = source.source;
   E.current.textContent = "0:00";
   E.duration.textContent = "0:00";
@@ -307,7 +314,7 @@ E.tabs.addEventListener("click", event => {
 
 E.importBtn.addEventListener("click", () => E.fileInput.click());
 
-E.fileInput.addEventListener("change", event => {
+E.fileInput.addEventListener("change", async event => {
   const files = [...event.target.files].filter(file => file.type.startsWith("audio/"));
   const track = getCurrentTrack();
 
@@ -324,11 +331,19 @@ E.fileInput.addEventListener("change", event => {
   }
 
   loadTrack(state.index, false);
-  E.status.textContent = `تم تجهيز ${track.title} للتشغيل.`;
   renderList();
   event.target.value = "";
 
-  playTrack();
+  try {
+    await audio.play();
+    state.isPlaying = true;
+    E.status.textContent = `شغّال الآن: ${track.title}`;
+  } catch {
+    state.isPlaying = false;
+    E.status.textContent = "الملف اتضاف، اضغط Play للتشغيل.";
+  }
+
+  updateControls();
 });
 
 E.list.addEventListener("click", event => {
@@ -423,7 +438,7 @@ document.addEventListener("keydown", event => {
 });
 
 window.addEventListener("beforeunload", () => {
-  for (const url of objectUrls.values()) URL.revokeObjectURL(url);
+  if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
 });
 
 setTheme(localStorage.getItem("pavley-theme") || "dark");
