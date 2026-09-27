@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Pavley Audio Player, a responsive audio-first player powered by SoundCloud with playlists, favorites, shuffle, repeat, seek, and volume." />
+  <meta name="description" content="Pavley Audio Player with editable playlists and audio sources." />
   <title>Pavley Audio Player</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,36 +22,40 @@
         <span><strong>Pavley</strong><small>Audio Player</small></span>
       </a>
       <div class="topbar-actions">
-        <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
-        <a class="icon-btn" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud"><i class="fa-brands fa-soundcloud" aria-hidden="true"></i></a>
+        <button class="icon-btn" id="theme-btn" type="button" aria-label="تبديل المظهر" aria-pressed="false">
+          <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        </button>
+        <a class="icon-btn" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud">
+          <i class="fa-brands fa-soundcloud" aria-hidden="true"></i>
+        </a>
       </div>
     </header>
 
     <main class="layout">
-      <aside class="sidebar" aria-label="قوائم التشغيل">
-        <div class="sidebar-head">
-          <div><span class="eyebrow">LIBRARY</span><h2>الفنانين</h2></div>
-          <button class="icon-btn small" id="add-playlist-btn" type="button" aria-label="إضافة Playlist"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+      <aside class="sidebar" aria-label="مكتبة الموسيقى">
+        <div class="sidebar-group">
+          <div class="sidebar-head">
+            <div><span class="eyebrow">MY LIBRARY</span><h2>قوائمك</h2></div>
+            <button class="icon-btn small" id="add-playlist-btn" type="button" aria-label="إنشاء Playlist">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+          <nav class="playlist-tabs" id="my-playlists"></nav>
         </div>
 
-        <nav class="playlist-tabs" id="playlist-tabs"></nav>
+        <div class="sidebar-group source-group">
+          <div class="sidebar-head compact">
+            <div><span class="eyebrow">SOURCES</span><h2>مصادر جاهزة</h2></div>
+          </div>
+          <nav class="playlist-tabs" id="source-tabs"></nav>
+        </div>
 
         <div class="library-note">
-          <i class="fa-brands fa-soundcloud" aria-hidden="true"></i>
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           <div>
-            <strong>صوت فقط</strong>
-            <p>المشغّل يستخدم SoundCloud Streaming مع إخفاء صورة الـ artwork.</p>
+            <strong>صوت فقط داخل المشغّل</strong>
+            <p>الغلاف يظهر في الكارت الخارجي فقط. روابط الصوت المباشرة من مواقع مختلفة تعمل عبر مشغّل المتصفح، وSoundCloud يعمل عبر الـWidget الرسمي.</p>
           </div>
-        </div>
-
-        <div class="playlist-form" id="playlist-form" hidden>
-          <label for="playlist-url">رابط SoundCloud Playlist</label>
-          <input id="playlist-url" type="url" placeholder="https://soundcloud.com/user/sets/playlist" />
-          <div class="form-actions">
-            <button class="mini-btn primary" id="save-playlist" type="button">إضافة</button>
-            <button class="mini-btn" id="cancel-playlist" type="button">إلغاء</button>
-          </div>
-          <p class="form-hint" id="playlist-form-status" role="status"></p>
         </div>
       </aside>
 
@@ -59,30 +63,46 @@
         <section class="hero-card">
           <div class="hero-copy">
             <span class="eyebrow">AUDIO FIRST</span>
-            <h1>المزيكا من غير فيديو.</h1>
-            <p>واجهة صوتية نظيفة، مع تشغيل Streaming من SoundCloud، Playlists، Favorites، Shuffle، Repeat، Seek والتحكم في الصوت.</p>
+            <h1>اعمل مكتبتك على مزاجك.</h1>
+            <p>أنشئ Playlist جديدة، غيّر اسمها وغلافها، أضف واحذف الأغاني، وشغّل روابط صوت مباشرة من مصادر مختلفة بدون فيديو.</p>
           </div>
-          <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-volume-high"></i></div></div>
+          <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-sliders"></i></div></div>
         </section>
 
         <section class="music-grid">
           <div class="playlist-panel">
             <div class="panel-heading">
-              <div><span class="eyebrow">SOUNDCLOUD SOURCE</span><h2 id="playlist-title">محمد منير</h2></div>
-              <span class="track-count" id="track-count">جاري التحميل</span>
+              <div>
+                <span class="eyebrow" id="playlist-kind">PLAYLIST</span>
+                <h2 id="playlist-title">مكتبتي</h2>
+              </div>
+              <div class="heading-actions">
+                <span class="track-count" id="track-count">0 أغنية</span>
+                <button class="mini-icon-btn" id="edit-playlist-btn" type="button" title="تعديل Playlist" aria-label="تعديل Playlist">
+                  <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                </button>
+                <button class="mini-icon-btn" id="add-track-btn" type="button" title="إضافة أغنية" aria-label="إضافة أغنية">
+                  <i class="fa-solid fa-music" aria-hidden="true"></i>
+                </button>
+                <button class="mini-icon-btn danger" id="delete-playlist-btn" type="button" title="حذف Playlist" aria-label="حذف Playlist">
+                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
+            <div class="playlist-cover-strip" id="playlist-cover-strip"></div>
             <div class="track-list" id="track-list"></div>
 
-            <div class="sc-player-wrap">
-              <div id="soundcloud-widget"></div>
+            <div class="sc-player-wrap" id="sc-player-wrap">
+              <iframe id="soundcloud-widget" title="SoundCloud audio player" scrolling="no" allow="autoplay" src="about:blank"></iframe>
             </div>
-            <div class="video-status" id="source-status" role="status" aria-live="polite">جاري تجهيز مشغّل الصوت...</div>
+            <audio id="native-audio" preload="metadata"></audio>
+            <div class="source-status" id="source-status" role="status" aria-live="polite">جاري تجهيز المشغّل...</div>
           </div>
 
           <aside class="player-card">
-            <div class="now-art" id="now-art">
-              <span id="art-initials">م</span>
+            <div class="now-art" id="now-art" aria-label="غلاف الأغنية">
+              <span id="art-initials">♪</span>
               <div class="art-overlay"></div>
               <button class="favorite-main" id="favorite-main" type="button" aria-label="إضافة للمفضلة" aria-pressed="false">
                 <i class="fa-regular fa-heart" aria-hidden="true"></i>
@@ -90,8 +110,11 @@
             </div>
 
             <div class="now-meta">
-              <div><h2 id="now-title">جاهز للتشغيل</h2><p id="now-artist">محمد منير</p></div>
-              <span class="source-pill">SOUNDCLOUD</span>
+              <div>
+                <h2 id="now-title">جاهز للتشغيل</h2>
+                <p id="now-artist">اختار أغنية</p>
+              </div>
+              <span class="source-pill" id="source-pill">PAVLEY</span>
             </div>
 
             <div class="wave" id="waveform" aria-hidden="true"></div>
@@ -110,12 +133,18 @@
             </div>
 
             <div class="player-bottom">
-              <div class="volume-box"><i class="fa-solid fa-volume-low" aria-hidden="true"></i><input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="مستوى الصوت" /><i class="fa-solid fa-volume-high" aria-hidden="true"></i></div>
-              <button class="official-btn" id="mute-btn" type="button" aria-pressed="false"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> كتم</button>
+              <div class="volume-box">
+                <i class="fa-solid fa-volume-low" aria-hidden="true"></i>
+                <input id="volume" class="range" type="range" min="0" max="100" value="80" aria-label="مستوى الصوت" />
+                <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+              </div>
+              <button class="official-btn" id="mute-btn" type="button" aria-pressed="false">
+                <i class="fa-solid fa-volume-xmark" aria-hidden="true"></i> كتم
+              </button>
             </div>
 
-            <a class="source-link" id="source-link" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer">
-              <i class="fa-brands fa-soundcloud" aria-hidden="true"></i> افتح المصدر على SoundCloud
+            <a class="source-link" id="source-link" href="#" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> افتح المصدر
             </a>
             <p class="player-status" id="player-status" role="status" aria-live="polite"></p>
           </aside>
@@ -125,8 +154,42 @@
 
     <footer class="footer">
       <span>© 2026 Pavley Audio Player</span>
-      <span>Powered by SoundCloud</span>
+      <span>SoundCloud + Browser Audio</span>
     </footer>
   </div>
+
+  <dialog class="modal" id="playlist-modal">
+    <form method="dialog" class="modal-card" id="playlist-form">
+      <div class="modal-head">
+        <div><span class="eyebrow">PLAYLIST</span><h3 id="playlist-modal-title">إنشاء Playlist</h3></div>
+        <button class="icon-btn small" type="button" data-close-modal="playlist-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <label>اسم Playlist<input id="playlist-name" type="text" maxlength="60" placeholder="مثلاً: مزاج الليل" required /></label>
+      <label>رابط الغلاف <span class="optional">اختياري</span><input id="playlist-cover" type="url" placeholder="https://example.com/cover.jpg" /></label>
+      <p class="modal-hint" id="playlist-modal-status"></p>
+      <div class="modal-actions">
+        <button class="mini-btn primary" id="save-playlist" type="button">حفظ</button>
+        <button class="mini-btn" type="button" data-close-modal="playlist-modal">إلغاء</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="track-modal">
+    <form method="dialog" class="modal-card" id="track-form">
+      <div class="modal-head">
+        <div><span class="eyebrow">TRACK</span><h3 id="track-modal-title">إضافة أغنية</h3></div>
+        <button class="icon-btn small" type="button" data-close-modal="track-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <label>اسم الأغنية<input id="track-title-input" type="text" maxlength="120" placeholder="اسم الأغنية" required /></label>
+      <label>المطرب <span class="optional">اختياري</span><input id="track-artist-input" type="text" maxlength="100" placeholder="اسم المطرب" /></label>
+      <label>رابط الصوت<input id="track-url-input" type="url" placeholder="رابط SoundCloud أو رابط ملف صوت مباشر MP3 / M4A / OGG / WAV" required /></label>
+      <label>رابط الغلاف <span class="optional">اختياري</span><input id="track-art-input" type="url" placeholder="https://example.com/cover.jpg" /></label>
+      <p class="modal-hint" id="track-modal-status">روابط الفيديو وحدها لا تتحول تلقائياً إلى صوت داخل المتصفح.</p>
+      <div class="modal-actions">
+        <button class="mini-btn primary" id="save-track" type="button">حفظ الأغنية</button>
+        <button class="mini-btn" type="button" data-close-modal="track-modal">إلغاء</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
