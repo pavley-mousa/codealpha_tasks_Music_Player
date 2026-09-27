@@ -1,38 +1,55 @@
 # Pavley Music Player
 
-Responsive music player built with HTML, CSS, and vanilla JavaScript.
+A responsive YouTube-powered music player built with HTML, CSS, and vanilla JavaScript.
 
-Features:
-- Mohamed Mounir and Georges Wassouf playlists
-- Search
-- Favorites with localStorage
-- Shuffle and repeat
-- Previous and next controls
-- Seek bar and volume control
+## Streaming
+
+The app uses the official YouTube IFrame Player API for playback. It does not download or re-host commercial recordings.
+
+YouTube supports embedding a playlist with a playlist ID, and the IFrame API supports play, pause, next, previous, seeking, volume, shuffle, and playlist looping. citeturn666623search0turn322662search0
+
+## Built-in sources
+
+- Mohamed Mounir official channel uploads
+- Georges Wassouf official channel uploads
+- Any public YouTube playlist you add from the + button
+
+## Add your own YouTube playlist
+
+1. Open the app.
+2. Press + beside "مصادرك".
+3. Paste a YouTube playlist URL.
+4. Press "إضافة".
+5. The playlist is saved in your browser and loads inside the player.
+
+Example URL format:
+
+https://www.youtube.com/playlist?list=PLAYLIST_ID
+
+## Features
+
+- YouTube streaming
+- Multiple playlists
+- Custom YouTube playlist import
+- Play and pause
+- Previous and next
+- Seek
+- Volume
+- Mute
+- Shuffle
+- Repeat
+- Favorites
 - Dark and light themes
 - Keyboard shortcuts
-- Responsive mobile and desktop layout
-- Local audio support
-- Official-source button for each track
-- Saved player preferences
+- Responsive desktop and mobile UI
 
-Local audio:
-The repository does not contain copyrighted commercial recordings. Add audio files you own or have permission to use under:
+## Keyboard shortcuts
 
-music/mounir/
-music/wassouf/
-
-Use the filenames already listed in script.js.
-
-Official artist channels:
-Mohamed Mounir: https://www.youtube.com/@MounirOfficial
-Georges Wassouf: https://www.youtube.com/@GeorgesWassouf
-
-Run:
-Open index.html or use VS Code Live Server.
-
-Keyboard:
 Space = Play/Pause
 Arrow Right = Next
 Arrow Left = Previous
 M = Mute/Unmute
+
+## Run
+
+Open index.html with VS Code Live Server.
