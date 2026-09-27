@@ -25,13 +25,35 @@
 - Responsive design
 - حفظ القوائم والإعدادات داخل localStorage على نفس المتصفح
 
-## ملاحظة مهمة عن الروابط
+## إضافة Playlist
 
-رابط صفحة عادية من أي موقع لا يتحول تلقائياً إلى ملف صوت. خانة إضافة الأغنية تحتاج رابط SoundCloud Track أو رابط ملف صوت مباشر قابل للتشغيل من المتصفح.
+اضغط + بجانب "قوائمك" لإنشاء Playlist جديدة.
 
-روابط YouTube نفسها لا تدخل كمصدر صوت منفصل داخل هذا المشغل. YouTube يضع قيوداً على فصل الصوت عن الفيديو وعلى تشغيل مشغّل الخلفية. راجع سياسات YouTube الرسمية. citeturn970416search0turn970416search1
+من شريط Playlist الرئيسي تقدر تعدل الاسم والغلاف وتحذف القائمة.
 
-SoundCloud يوفّر تشغيل التراكات والقوائم من خلال الـWidget الرسمي، والـWidget API يدعم التحكم والتقديم والتأخير والصوت وإخفاء الـartwork. citeturn970416search2turn970416search3
+## إضافة أغنية
+
+افتح Playlist، واضغط زر المزيكا بجانب عدد الأغاني.
+
+ادخل اسم الأغنية والرابط.
+
+الرابط المقبول يكون SoundCloud Track أو رابط ملف صوت مباشر من موقع آخر مثل MP3 أو M4A أو OGG أو WAV.
+
+## ملاحظة مهمة عن YouTube
+
+رابط YouTube نفسه لا يتحول إلى صوت منفصل داخل هذا المشغل. سياسات YouTube تمنع فصل مكوّن الصوت عن الفيديو واستخدام مشغّل خلفية غير ظاهر كبديل عن تجربة YouTube الأصلية.
+
+المراجع الرسمية:
+https://developers.google.com/youtube/terms/developer-policies
+https://developers.google.com/youtube/terms/developer-policies-guide
+
+## SoundCloud
+
+SoundCloud يوفّر تشغيل التراكات والقوائم عبر الـWidget الرسمي، والـWidget API يدعم التحكم والتقديم والتأخير والصوت وإخفاء الـartwork.
+
+المراجع الرسمية:
+https://developers.soundcloud.com/docs/api/guide
+https://developers.soundcloud.com/docs/api/html5-widget
 
 ## التشغيل
 
