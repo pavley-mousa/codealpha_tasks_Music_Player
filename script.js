@@ -578,8 +578,8 @@ function readSoundCloudSounds(token,attempt=0){
 }
 
 function loadCurrentSource(){
-  const token=++state.loadToken;
   stopAll();
+  const token=++state.loadToken;
   state.tracks=[];
   state.index=0;
   state.scContext="";
