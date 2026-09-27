@@ -1,49 +1,42 @@
 # Pavley Audio Player
 
-Audio-first music player built with HTML, CSS, vanilla JavaScript, and the official SoundCloud Widget API.
+مشغّل موسيقى بواجهة Audio First، مبني بـ HTML وCSS وVanilla JavaScript.
 
-The player uses SoundCloud streaming instead of downloading or extracting audio. SoundCloud's Widget API supports playback controls, seeking, volume, next, previous, playlist loading, and playback events. The widget also supports hiding artwork while retaining the embedded player and SoundCloud attribution. citeturn108738search0turn108738search2
+## أهم المميزات
 
-## Built-in sources
-
-Mohamed Mounir SoundCloud:
-https://soundcloud.com/mohamed-mounir-official
-
-Georges Wassouf SoundCloud:
-https://soundcloud.com/georges_wassouf
-
-These artist pages currently contain tracks on SoundCloud. citeturn710102search1turn915845search0
-
-## Add a playlist
-
-Press + beside "الفنانين", paste any SoundCloud playlist URL, then press "إضافة".
-
-## Features
-
-- Audio-only interface
-- SoundCloud streaming
-- Artist sources
-- Custom SoundCloud playlist import
-- Play/Pause
-- Previous/Next
-- Seek
-- Volume
-- Mute
+- غلاف الأغنية يظهر في الكارت الخارجي فقط
+- Playlists جاهزة لمحمد منير وجورج وسوف من SoundCloud
+- إنشاء عدد غير محدود من Playlists محلية
+- تعديل اسم Playlist والغلاف
+- حذف Playlist
+- إضافة وتعديل وحذف الأغاني داخل Playlist
+- نقل أغاني SoundCloud من المصادر الجاهزة إلى أي Playlist
+- إضافة روابط SoundCloud للأغاني
+- إضافة روابط ملفات صوت مباشرة من مواقع مختلفة مثل MP3 وM4A وOGG وWAV عندما يكون الرابط ملف صوت فعلي
+- تشغيل SoundCloud عبر الـWidget الرسمي
+- تشغيل الروابط المباشرة عبر HTML5 Audio
+- Favorites
 - Shuffle
 - Repeat
-- Favorites stored in localStorage
-- Dark and light themes
+- Seek
+- Volume وMute
+- Dark وLight Mode
 - Keyboard shortcuts
 - Responsive design
-- SoundCloud attribution
+- حفظ القوائم والإعدادات داخل localStorage على نفس المتصفح
 
-## Run
+## ملاحظة مهمة عن الروابط
 
-Open index.html with VS Code Live Server.
+رابط صفحة عادية من أي موقع لا يتحول تلقائياً إلى ملف صوت. خانة إضافة الأغنية تحتاج رابط SoundCloud Track أو رابط ملف صوت مباشر قابل للتشغيل من المتصفح.
 
-## Keyboard shortcuts
+روابط YouTube نفسها لا تدخل كمصدر صوت منفصل داخل هذا المشغل. YouTube يضع قيوداً على فصل الصوت عن الفيديو وعلى تشغيل مشغّل الخلفية. راجع سياسات YouTube الرسمية. citeturn970416search0turn970416search1
 
-Space = Play/Pause
-Arrow Right = Next
-Arrow Left = Previous
-M = Mute/Unmute
+SoundCloud يوفّر تشغيل التراكات والقوائم من خلال الـWidget الرسمي، والـWidget API يدعم التحكم والتقديم والتأخير والصوت وإخفاء الـartwork. citeturn970416search2turn970416search3
+
+## التشغيل
+
+افتح index.html باستخدام VS Code Live Server.
+
+## التخزين
+
+Playlists وإعدادات المستخدم محفوظة محلياً داخل localStorage، لذلك مكتبتك خاصة بالمتصفح والجهاز الذي تستخدمه.
