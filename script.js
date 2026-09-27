@@ -148,7 +148,7 @@ function normalizePlaylist(playlist){
 
 function migrateLegacyData(){
   if(!localStorage.getItem(KEYS.playlists)){
-    const old=readJSON("pavley-playlists-v3",[]);
+    const old=readJSON("pavley-playlists-v4",readJSON("pavley-playlists-v3",[]));
     if(Array.isArray(old)&&old.length)localStorage.setItem(KEYS.playlists,JSON.stringify(old));
   }
   if(!localStorage.getItem(KEYS.view)){
@@ -1125,16 +1125,16 @@ function openSettings(show=true){
 }
 
 function saveSettings(){
+  const selectedLanguage=E.settingLanguage.value==="en"?"en":"ar";
   state.config.appName=E.settingAppName.value.trim()||DEFAULT_CONFIG.appName;
   state.config.appSubtitle=E.settingAppSubtitle.value.trim()||DEFAULT_CONFIG.appSubtitle;
-  state.config.heroTitle[lang()]=E.settingHeroTitle.value.trim()||DEFAULT_CONFIG.heroTitle[lang()];
-  state.config.heroDescription[lang()]=E.settingHeroDescription.value.trim()||DEFAULT_CONFIG.heroDescription[lang()];
+  state.config.heroTitle[selectedLanguage]=E.settingHeroTitle.value.trim()||DEFAULT_CONFIG.heroTitle[selectedLanguage];
+  state.config.heroDescription[selectedLanguage]=E.settingHeroDescription.value.trim()||DEFAULT_CONFIG.heroDescription[selectedLanguage];
   state.config.accent=isColor(E.settingAccent.value)?E.settingAccent.value:DEFAULT_CONFIG.accent;
   const logoInput=E.settingLogo.value.trim();
   state.config.logoUrl=logoInput?safeUrl(logoInput):"";
   if(logoInput&&!state.config.logoUrl){alert(t("badUrl"));return;}
   state.config.footerText=E.settingFooter.value.trim()||DEFAULT_CONFIG.footerText;
-  const selectedLanguage=E.settingLanguage.value==="en"?"en":"ar";
   state.config.language=selectedLanguage;
   saveConfig();
   applyConfig();
@@ -1236,6 +1236,11 @@ E.saveSource.addEventListener("click",saveSourceFromForm);
 
 E.language.addEventListener("click",()=>setLanguage(lang()==="ar"?"en":"ar"));
 E.theme.addEventListener("click",toggleTheme);
+E.settingLanguage.addEventListener("change",()=>{
+  const selected=E.settingLanguage.value==="en"?"en":"ar";
+  E.settingHeroTitle.value=state.config.heroTitle[selected];
+  E.settingHeroDescription.value=state.config.heroDescription[selected];
+});
 E.play.addEventListener("click",togglePlay);
 E.next.addEventListener("click",()=>playNext(false));
 E.prev.addEventListener("click",playPrevious);
