@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Pavley Audio Player with editable playlists and audio sources." />
+  <meta name="description" content="Pavley Audio Player with editable playlists and multi-source audio." />
   <title>Pavley Audio Player</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,8 +53,8 @@
         <div class="library-note">
           <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           <div>
-            <strong>صوت فقط داخل المشغّل</strong>
-            <p>الغلاف يظهر في الكارت الخارجي فقط. روابط الصوت المباشرة من مواقع مختلفة تعمل عبر مشغّل المتصفح، وSoundCloud يعمل عبر الـWidget الرسمي.</p>
+            <strong>الغلاف هنا فقط</strong>
+            <p>Artwork يظهر في كارت الأغنية الخارجي فقط. القائمة نفسها نصية، وSoundCloud بدون Artwork.</p>
           </div>
         </div>
       </aside>
@@ -64,7 +64,7 @@
           <div class="hero-copy">
             <span class="eyebrow">AUDIO FIRST</span>
             <h1>اعمل مكتبتك على مزاجك.</h1>
-            <p>أنشئ Playlist جديدة، غيّر اسمها وغلافها، أضف واحذف الأغاني، وشغّل روابط صوت مباشرة من مصادر مختلفة بدون فيديو.</p>
+            <p>أنشئ Playlist جديدة، غيّر اسمها والغلاف، أضف واحذف الأغاني، وشغّل روابط صوت من مصادر مختلفة بدون فيديو.</p>
           </div>
           <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-core"><i class="fa-solid fa-sliders"></i></div></div>
         </section>
@@ -90,7 +90,6 @@
               </div>
             </div>
 
-            <div class="playlist-cover-strip" id="playlist-cover-strip"></div>
             <div class="track-list" id="track-list"></div>
 
             <div class="sc-player-wrap" id="sc-player-wrap">
@@ -159,7 +158,7 @@
   </div>
 
   <dialog class="modal" id="playlist-modal">
-    <form method="dialog" class="modal-card" id="playlist-form">
+    <form method="dialog" class="modal-card">
       <div class="modal-head">
         <div><span class="eyebrow">PLAYLIST</span><h3 id="playlist-modal-title">إنشاء Playlist</h3></div>
         <button class="icon-btn small" type="button" data-close-modal="playlist-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
@@ -175,19 +174,36 @@
   </dialog>
 
   <dialog class="modal" id="track-modal">
-    <form method="dialog" class="modal-card" id="track-form">
+    <form method="dialog" class="modal-card">
       <div class="modal-head">
         <div><span class="eyebrow">TRACK</span><h3 id="track-modal-title">إضافة أغنية</h3></div>
         <button class="icon-btn small" type="button" data-close-modal="track-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <label>اسم الأغنية<input id="track-title-input" type="text" maxlength="120" placeholder="اسم الأغنية" required /></label>
       <label>المطرب <span class="optional">اختياري</span><input id="track-artist-input" type="text" maxlength="100" placeholder="اسم المطرب" /></label>
-      <label>رابط الصوت<input id="track-url-input" type="url" placeholder="رابط SoundCloud أو رابط ملف صوت مباشر MP3 / M4A / OGG / WAV" required /></label>
+      <label>رابط الصوت<input id="track-url-input" type="url" placeholder="SoundCloud أو رابط ملف صوت مباشر" required /></label>
       <label>رابط الغلاف <span class="optional">اختياري</span><input id="track-art-input" type="url" placeholder="https://example.com/cover.jpg" /></label>
-      <p class="modal-hint" id="track-modal-status">روابط الفيديو وحدها لا تتحول تلقائياً إلى صوت داخل المتصفح.</p>
+      <p class="modal-hint" id="track-modal-status">الرابط لازم يكون رابط صوت مباشر أو رابط SoundCloud Track.</p>
       <div class="modal-actions">
         <button class="mini-btn primary" id="save-track" type="button">حفظ الأغنية</button>
         <button class="mini-btn" type="button" data-close-modal="track-modal">إلغاء</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="add-to-playlist-modal">
+    <form method="dialog" class="modal-card">
+      <div class="modal-head">
+        <div><span class="eyebrow">ADD TO PLAYLIST</span><h3>إضافة إلى Playlist</h3></div>
+        <button class="icon-btn small" type="button" data-close-modal="add-to-playlist-modal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <label>اختار Playlist
+        <select id="destination-playlist"></select>
+      </label>
+      <p class="modal-hint" id="copy-status"></p>
+      <div class="modal-actions">
+        <button class="mini-btn primary" id="save-copy-track" type="button">إضافة</button>
+        <button class="mini-btn" type="button" data-close-modal="add-to-playlist-modal">إلغاء</button>
       </div>
     </form>
   </dialog>
