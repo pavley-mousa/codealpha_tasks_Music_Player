@@ -1,8 +1,4 @@
-# Pavley Audio Player
 
-Frontend Only music player built with HTML, CSS and Vanilla JavaScript.
-
-لا يوجد Backend أو Database أو Server خاص بالمشروع.
 
 ## User Editable Platform
 
